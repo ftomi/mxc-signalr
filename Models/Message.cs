@@ -12,4 +12,6 @@ public class Message
     public required string Text { get; set; }
     public DateTime Timestamp { get; set; }
     public required string Channel { get; set; }
+    public string? Recipient { get; set; } 
+    public bool IsDeleted { get; set; } = false;
 }

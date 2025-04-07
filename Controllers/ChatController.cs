@@ -22,7 +22,7 @@ public class ChatController : ControllerBase
     public async Task<ActionResult<List<string>>> GetChannels()
     { 
         var messages = await _messageService.GetMessagesAsync(); 
-        var channels = messages.Select(m => m.Channel).Distinct().ToList();
+        var channels = messages.Where(x => x.Recipient == null).Select(m => m.Channel).Distinct().ToList();
         return Ok(channels);
     }
 
@@ -45,6 +45,20 @@ public class ChatController : ControllerBase
     {
         await _chatHub.DeleteChannel(channelName);
         return Ok();
+    }
+    
+    [HttpGet("direct/{fromUser}/{toUser}")]
+    public async Task<ActionResult<List<Message>>> GetDirectMessages(string fromUser, string toUser)
+    {
+        var messages = await _messageService.GetDirectMessagesAsync(fromUser, toUser);
+        return Ok(messages);
+    }
+    
+    [HttpGet("direct/users")]
+    public async Task<ActionResult<List<string>>> GetUsers()
+    {
+        var users = await _messageService.GetUsersAsync();
+        return Ok(users);
     }
     
     public class CreateChannelRequest

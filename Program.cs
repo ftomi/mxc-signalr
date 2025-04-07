@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
     new MongoClient("mongodb://localhost:27017"));
 builder.Services.AddSingleton<MessageService>();
+builder.Services.AddSingleton<UserService>();
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
